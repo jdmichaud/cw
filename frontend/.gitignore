@@ -1,0 +1,19 @@
+node_modules
+dist
+.tmp
+.sass-cache
+bower_components
+dist
+
+# Node folder created by maven-frontend-plugin
+node
+npm-debug.log
+
+# karma-coverage output folder
+coverage
+
+# grunt-jsdoc output folder
+doc
+
+# Maven target file
+target
