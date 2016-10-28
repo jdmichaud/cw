@@ -4,7 +4,8 @@
   "description": "Crossword program",
   "main": "main.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "tsc": "tsc"
   },
   "repository": {
     "type": "git",
