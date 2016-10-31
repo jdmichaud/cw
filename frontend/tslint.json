@@ -11,6 +11,8 @@
       }
     ],
     "align": [true, "parameters", "statements"],
-     "no-console": [false]
+    "no-console": [false],
+    "missing-jsdoc": false,
+    "no-relative-imports": false
   }
 }

@@ -1,4 +1,5 @@
-export const DEFINITION = '.';
+export const DEFINITION = '#';
+export const EMPTY = '.';
 
 export class FlatCWRepr {
   constructor(width: number, lines: string) {

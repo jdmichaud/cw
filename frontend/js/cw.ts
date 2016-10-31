@@ -1,23 +1,11 @@
 // http://www.pallier.org/ressources/dicofr/liste.de.mots.francais.frgut.txt
 
-import * as fs from 'fs';
 import { DEFINITION, Direction, FlatCWRepr, Grid, Word } from './types';
-
-// Load a flat grid from a file
-function loadCW(filepath: string): FlatCWRepr {
-  const content = fs.readFileSync(filepath).toString('utf8');
-  const width = content.substr(0, content.indexOf('\n'));
-  const cwlines = content.substr(content.indexOf('\n') + 1).replace(/\n/g, '');
-  return new FlatCWRepr(
-    parseInt(width, 10),
-    cwlines,
-  );
-}
 
 // From the flat grid and a position in the lines, create a word object.
 // The value is produced by the provided function.
-function generateWord(flatCW: FlatCWRepr, i: number,
-                      buildfn: () => string, direction: Direction) : Word {
+export function generateWord(flatCW: FlatCWRepr, i: number,
+                             buildfn: () => string, direction: Direction) : Word {
   const word = {
     x: i % flatCW.width,
     y: Math.floor(i / flatCW.width),
@@ -30,7 +18,7 @@ function generateWord(flatCW: FlatCWRepr, i: number,
 }
 
 // Produce a list of words from a flat grid object
-function generateCW(flatCW: FlatCWRepr) : Word[] {
+export function createWordsList(flatCW: FlatCWRepr) : Word[] {
   const { width, lines } = flatCW;
   function isFirstLetterHorizontal(i: number) : boolean {
     return (i % width === 0 || (i > 0 && lines[i - 1] === DEFINITION)) &&
@@ -65,7 +53,7 @@ function generateCW(flatCW: FlatCWRepr) : Word[] {
   return wordsList;
 }
 
-function getCrossingWords(wordsList: Word[], word: Word) : Word[] {
+export function getCrossingWords(wordsList: Word[], word: Word) : Word[] {
   if (word.direction === Direction.Right) { // Word from left to right
     return wordsList
       .filter((wordItem) => {
@@ -85,7 +73,7 @@ function getCrossingWords(wordsList: Word[], word: Word) : Word[] {
   }
 }
 
-function checkNoOverlappingWords(wordsList: Word[]) : boolean {
+export function checkNoOverlappingWords(wordsList: Word[]) : boolean {
   return wordsList.map((word) => {
     return getCrossingWords(wordsList, word).map((crossingWord) => {
       if (word.direction === Direction.Right) {
@@ -97,7 +85,7 @@ function checkNoOverlappingWords(wordsList: Word[]) : boolean {
 }
 
 // Check every word has a definition
-function checkDefinition(grid: Grid) : boolean {
+export function checkDefinition(grid: Grid) : boolean {
   return grid.wordsList.map((word) => {
     console.log(word);
     if (word.direction === Direction.Right) {
@@ -115,11 +103,11 @@ function checkDefinition(grid: Grid) : boolean {
   }).filter((result) => !result).length === 0;
 }
 
-function checkNoEmptyDefinition(grid: Grid) : boolean {
+export function checkNoEmptyDefinition(grid: Grid) : boolean {
   return true;
 }
 
-function checkContraints(grid: Grid) : boolean {
+export function checkContraints(grid: Grid) : boolean {
   return checkNoOverlappingWords(grid.wordsList) &&
     checkDefinition(grid) && checkNoEmptyDefinition(grid);
 }
