@@ -22,6 +22,14 @@ export enum Direction {
 }
 
 export class Word {
+  constructor(x: number, y: number, value: string, direction: Direction) {
+    this.x = x;
+    this.y = y;
+    this.value = value;
+    this.length = value.length;
+    this.direction = direction;
+  }
+  public kind: 'word';
   public x: number;
   public y: number;
   public value: string;
@@ -29,7 +37,27 @@ export class Word {
   public direction: Direction;
 }
 
+export class Definition {
+  constructor(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+    length = 0;
+  }
+  public kind: 'def';
+  public x: number;
+  public y: number;
+  public length: number;
+}
+
+export type Entry = Word | Definition;
+
 export class Grid {
   public flat: FlatCWRepr;
-  public wordsList: Word[];
+  public entryList: Entry[];
+  public getWords() : Entry[] {
+    return this.entryList.filter((entry) => entry instanceof Word);
+  }
+  public getEntry(x: number, y: number) : Entry {
+    return this.entryList.filter((entry) => entry.x === x && entry.y === y)[0];
+  }
 }
